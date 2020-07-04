@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
-import { once } from '@ember/runloop';
 import { assert } from '@ember/debug';
 import { TrackedArray } from 'tracked-built-ins';
 
@@ -32,15 +31,11 @@ export default class NavComponent extends Component {
   @action
   setupIndicator(element) {
     this.indicator = element;
-    this._updateStyle();
+    this.updateStyle();
   }
 
   @action
   updateStyle(){
-    once(this, this._updateStyle);
-  }
-
-  _updateStyle(){
     const e1Index = Math.floor(this.args.relativeOffset);
     const e2Index = Math.ceil(this.args.relativeOffset);
 
@@ -75,6 +70,7 @@ export default class NavComponent extends Component {
       const scrollLeftTarget    = targetLeft - navLeft;
       const indicatorLeftTarget = scrollLeftTarget + navScrollLeft;
 
+      // TODO: don't do this if the target index is already in range
       // change scroll based on indicator position
       if(scrollLeftTarget > 50){
         this.element.scrollLeft += scrollLeftTarget - this.navScrollOffset;
@@ -83,11 +79,6 @@ export default class NavComponent extends Component {
       }
       this.indicator.style.transform = `translateX(${indicatorLeftTarget}px) scaleX(${targetWidth})`;
     }
-  }
-
-  _applyStyle(scrollLeft, indicatorLeft, indicatorWidth){
-    this.element.scrollLeft = scrollLeft;
-    this.indicator.style.transform = `translateX(${indicatorLeft}px) scaleX(${indicatorWidth})`;
   }
 
   @action

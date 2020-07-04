@@ -250,7 +250,11 @@ export default class MobilePaneComponent extends Component {
   }
 
   @action
-  onDragEnd(activeIndex){
+  async onDragEnd(activeIndex, finishTransition = false){
+    if (finishTransition) {
+      await this.finishTransition(activeIndex);
+    }
+
     this.isDragging = false;
     this.dx = 0;
 
