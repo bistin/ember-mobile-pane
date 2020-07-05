@@ -33,7 +33,9 @@
     "ember-auto-import": "^1.5.3",
     "ember-cli-babel": "^7.20.5",
     "ember-cli-htmlbars": "^5.1.2",
+    "ember-concurrency": "^1.2.1",
     "ember-gesture-modifiers": "^0.1.1",
+    "ember-on-resize-modifier": "^0.2.1",
     "memory-scroll": "^0.9.1",
     "tracked-built-ins": "^1.0.2",
     "wobble": "^1.5.1"
