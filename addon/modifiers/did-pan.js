@@ -36,12 +36,11 @@ export default class DidPanModifier extends Modifier {
   }
 
   removeEventListeners(element) {
-    element.style.touchAction = null;
-
-    element.removeEventListener('touchstart', this.didTouchStart, this.options);
-    element.removeEventListener('touchmove', this.didTouchMove, { capture: this.useCapture });
-    element.removeEventListener('touchend', this.didTouchEnd, this.options);
-    element.removeEventListener('touchcancel', this.didTouchEnd, this.options);
+    (element || this.element)?.style.touchAction = null;
+    (element || this.element)?.removeEventListener('touchstart', this.didTouchStart, this.options);
+    (element || this.element)?.removeEventListener('touchmove', this.didTouchMove, { capture: this.useCapture });
+    (element || this.element)?.removeEventListener('touchend', this.didTouchEnd, this.options);
+    (element || this.element)?.removeEventListener('touchcancel', this.didTouchEnd, this.options);
   }
 
   @action
