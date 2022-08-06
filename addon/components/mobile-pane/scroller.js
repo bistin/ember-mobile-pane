@@ -21,6 +21,17 @@ export default class ScrollerComponent extends Component {
     return this.args.overScrollFactor ?? 0.34;
   }
 
+  /**
+   * Determin how sensitive move ratio to fire a page change.
+   *
+   * @argument sensitiveRatio
+   * @type {Number} between 0 and 0.5
+   * @default 0.34
+   */
+  get sensitiveRatio() {
+    return this.args.sensitiveRatio ?? 0.2;
+  }
+
   // private
   isDragging = false;
   dx = 0;
@@ -111,10 +122,15 @@ export default class ScrollerComponent extends Component {
 
       this.isDragging = false;
 
-      const dx = this.dx;
+      const { dx, sensitiveRatio } = this;
       const paneCount = this.args.paneCount;
       const currentIndex = this.args.activeIndex;
-      const rawTargetIndex = (dx * paneCount) / -100;
+      let rawTargetIndex = (dx * paneCount) / -100;
+      if(rawTargetIndex > sensitiveRatio) {
+        rawTargetIndex = 1;
+      } else if (rawTargetIndex < -1 * sensitiveRatio) {
+        rawTargetIndex = -1;
+      }
 
       let targetIndex = Math.max(
         Math.min(currentIndex + Math.round(rawTargetIndex), paneCount - 1),
